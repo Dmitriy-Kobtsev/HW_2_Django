@@ -1,7 +1,7 @@
 [
   {
     "model": "catalog.category",
-    "pk": 1,
+    "pk": 6,
     "fields": {
       "name": "Торты",
       "about": "Торты различной сложности, для любых мероприятий"
@@ -9,7 +9,7 @@
   },
   {
     "model": "catalog.category",
-    "pk": 2,
+    "pk": 7,
     "fields": {
       "name": "Эскимо",
       "about": "Эскимо из шоколадного бисквита с начинкой из шоколадной карамели или винильного бисквита с ягодной начинкой. Покрыты темным или белым бельгийским шоколадом"
@@ -17,7 +17,7 @@
   },
   {
     "model": "catalog.category",
-    "pk": 3,
+    "pk": 8,
     "fields": {
       "name": "Зефир",
       "about": "Зефир различной сложности, формы, на любой вкус."
@@ -25,7 +25,7 @@
   },
   {
     "model": "catalog.category",
-    "pk": 4,
+    "pk": 9,
     "fields": {
       "name": "Капкейки",
       "about": "Капкейки любой сложности, любая начинка"
@@ -33,10 +33,75 @@
   },
   {
     "model": "catalog.category",
-    "pk": 5,
+    "pk": 10,
     "fields": {
       "name": "Тарты",
       "about": "Тарты с любой начинкой."
+    }
+  },
+  {
+    "model": "catalog.product",
+    "pk": 1,
+    "fields": {
+      "product_name": "Медовик",
+      "product_about": "Торт медовик",
+      "image": "",
+      "product_category": 6,
+      "product_price": 1300,
+      "created_at": "2024-02-24T13:32:47.074Z",
+      "updated_at": "2024-02-24T13:32:47.074Z"
+    }
+  },
+  {
+    "model": "catalog.product",
+    "pk": 2,
+    "fields": {
+      "product_name": "Молочная девочка",
+      "product_about": "Молочная девочка, торт с начинкой...",
+      "image": "",
+      "product_category": 6,
+      "product_price": 1300,
+      "created_at": "2024-02-24T13:37:18.507Z",
+      "updated_at": "2024-02-24T13:37:18.507Z"
+    }
+  },
+  {
+    "model": "catalog.product",
+    "pk": 3,
+    "fields": {
+      "product_name": "Карамелька",
+      "product_about": "Торт с карамельной начинкой",
+      "image": "",
+      "product_category": 6,
+      "product_price": 1300,
+      "created_at": "2024-02-24T13:37:57.277Z",
+      "updated_at": "2024-02-24T13:37:57.278Z"
+    }
+  },
+  {
+    "model": "catalog.product",
+    "pk": 4,
+    "fields": {
+      "product_name": "Морковный с грецким орехом",
+      "product_about": "Торт морковный добавлением грецкого ореха и приправ",
+      "image": "",
+      "product_category": 6,
+      "product_price": 1300,
+      "created_at": "2024-02-24T13:39:04.800Z",
+      "updated_at": "2024-02-24T13:39:04.800Z"
+    }
+  },
+  {
+    "model": "catalog.product",
+    "pk": 5,
+    "fields": {
+      "product_name": "Эскимо Шоко",
+      "product_about": "Шоколадный бисквит с начинкой из шоколадной карамели",
+      "image": "",
+      "product_category": 7,
+      "product_price": 150,
+      "created_at": "2024-02-24T13:42:24.095Z",
+      "updated_at": "2024-02-24T13:42:24.095Z"
     }
   }
 ]
