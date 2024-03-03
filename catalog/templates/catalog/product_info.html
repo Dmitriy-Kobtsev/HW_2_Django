@@ -3,8 +3,8 @@
 
 {% block content %}
 <div class="container">
-      <div class="card mb-3">
-          <img src="{% mediapath object.image %}">
+      <div class="card mb-3 text-center" style="width: 18rem;">
+          <img src="{% mediapath object.image %}" class="card-img-top">
           <div class="card-body">
               <h5 class="card-title">{{ object.product_name }}</h5>
               <p class="card-text">{{ object.product_about }}</p>
