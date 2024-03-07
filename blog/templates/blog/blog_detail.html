@@ -1,0 +1,18 @@
+{% extends 'catalog/base.html' %}
+
+{% block content %}
+<div class="row text-center">
+    <div class="col-3">
+        <div class="card mb-4 box-shadow h-100">
+            <div class="card-header">
+                <h4 class="my-0 font-weight-normal">{{ object.title }}</h4>
+            </div>
+            <div class="card-body">
+                <p class="card-title pricing-card-title">{{ object.content }}</p>
+                <p class="card-title pricing-card-title">{{ object.publication }}</p>
+                <p class="card-title pricing-card-title">Просмотры {{ object.view_count }}</p>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock content %}
