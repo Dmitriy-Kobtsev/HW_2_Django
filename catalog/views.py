@@ -27,4 +27,6 @@ class ProductCreateView(CreateView):
 
 
 class ProductUpdateView(UpdateView):
-    pass
+    model = Product
+    form_class = ProductForm
+    success_url = reverse_lazy('catalog:index')
