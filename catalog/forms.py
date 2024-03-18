@@ -1,9 +1,20 @@
 from django import forms
+from django.forms import BooleanField
 
-from catalog.models import Product
+from catalog.models import Product, Version
 
 
-class ProductForm(forms.ModelForm):
+class StyleFormMixin:
+    def __init__(self, *args, **kwargs):
+        super(StyleFormMixin, self).__init__(*args, **kwargs)
+        for field_name, field in self.fields.items():
+            if isinstance(field, BooleanField):
+                field.widget.attrs['class'] = 'form-check-input'
+            else:
+                field.widget.attrs['class'] = 'form-control'
+
+
+class ProductForm(StyleFormMixin, forms.ModelForm):
 
     class Meta:
         model = Product
@@ -28,3 +39,9 @@ class ProductForm(forms.ModelForm):
                 raise forms.ValidationError('Описание содержит запрещенное слово')
 
         return cleaned_data
+
+
+class VersionForm(StyleFormMixin, forms.ModelForm):
+    class Meta:
+        model = Version
+        fields = '__all__'

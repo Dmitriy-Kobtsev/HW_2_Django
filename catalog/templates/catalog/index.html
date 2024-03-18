@@ -16,6 +16,7 @@
                     <h4 class="my-0 font-weight-normal">{{object.product_name}}</h4>
                     <p class="card-title pricing-card-title">{{ object.product_about|truncatechars:100 }}</p>
                     <p class="card-title pricing-card-title">{{ object.product_price }}</p>
+                    <p class="card-title pricing-card-title">{{ object.version }}</p>
                     <div class="btn-group">
                         <a class="btn btn-sm btn-outline-secondary"
                            href="{% url 'catalog:product_info' object.pk %}">
