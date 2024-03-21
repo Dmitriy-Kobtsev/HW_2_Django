@@ -3,7 +3,7 @@
 
 {% block content %}
     <div class="col-12 mb-4">
-        <a class="btn btn-outline-primary" href="{% url 'catalog:product_create' %}">Добавить продукт</a>
+        <a class="btn btn-outline-primary m-2" href="{% url 'catalog:product_create' %}">Добавить продукт</a>
     </div>
     <div class="row text-center">
         {% for object in object_list %}
@@ -16,7 +16,8 @@
                     <h4 class="my-0 font-weight-normal">{{object.product_name}}</h4>
                     <p class="card-title pricing-card-title">{{ object.product_about|truncatechars:100 }}</p>
                     <p class="card-title pricing-card-title">{{ object.product_price }}</p>
-                    <p class="card-title pricing-card-title">{{ object.version }}</p>
+                    <p class="card-title pricing-card-title">{{ object.version|default:"не указана" }}</p>
+                    <p class="card-title pricing-card-title">{{ object.owner.email|default:"неизвестен" }}</p>
                     <div class="btn-group">
                         <a class="btn btn-sm btn-outline-secondary"
                            href="{% url 'catalog:product_info' object.pk %}">
