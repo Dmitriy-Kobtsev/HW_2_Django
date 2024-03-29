@@ -99,7 +99,7 @@ class EmailConfirmationFailedView(TemplateView):
 
 class UserForgotPasswordView(PasswordResetView):
     """
-    Представление для сброса паролся и отправки инструкция на почту
+    Представление для сброса пароля и отправки инструкция на почту
     """
 
     form_class = UserForgotPasswordForm

@@ -29,6 +29,7 @@ class Product(models.Model):
                               null=True,
                               blank=True
                               )
+    is_published = models.BooleanField(default=False)
 
     def __str__(self):
         # Строковое отображение объекта
@@ -37,6 +38,13 @@ class Product(models.Model):
     class Meta:
         verbose_name = 'продукт'
         verbose_name_plural = 'продукты'
+
+        permissions = [
+            (
+                'set_published',
+                'Can publish product'
+            )
+        ]
 
 
 class Version(models.Model):
