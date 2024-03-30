@@ -21,8 +21,7 @@ class Command(BaseCommand):
             email='moderator_admin@mail.ru',
             first_name='Admin',
             last_name='Project',
-            is_staff=True,
-            is_superuser=True
+            is_staff=True
         )
 
         user.set_password('moderator3000')
