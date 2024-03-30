@@ -58,7 +58,8 @@ class ProductUpdateView(LoginRequiredMixin, PermissionRequiredMixin, UpdateView)
 
     def get_object(self, queryset=None):
         self.object = super().get_object(queryset)
-        if self.object.owner != self.request.user:
+
+        if self.object.owner != self.request.user and not self.request.user.has_perm('catalog.set_published'):
             raise Http404
         return self.object
 
@@ -72,7 +73,7 @@ class ProductUpdateView(LoginRequiredMixin, PermissionRequiredMixin, UpdateView)
         return context_data
 
     def get_form_class(self):
-        if self.request.user.has_perm("catalog.set_published"):
+        if self.request.user.has_perm("catalog.set_published") and not self.request.user.is_superuser:
             return ProductModeratorForm
         return ProductForm
 
