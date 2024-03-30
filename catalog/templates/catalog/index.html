@@ -2,9 +2,11 @@
 {% load mediapath_tag %}
 
 {% block content %}
-    <div class="col-12 mb-4">
-        <a class="btn btn-outline-primary m-2" href="{% url 'catalog:product_create' %}">Добавить продукт</a>
-    </div>
+    {% if perms.catalog.add_product %}
+        <div class="col-12 mb-4">
+            <a class="btn btn-outline-primary m-2" href="{% url 'catalog:product_create' %}">Добавить продукт</a>
+        </div>
+    {% endif %}
     <div class="row text-center">
         {% for object in object_list %}
         <div class="col-3 mb-4">

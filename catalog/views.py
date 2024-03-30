@@ -1,15 +1,22 @@
-from django.contrib.auth.mixins import LoginRequiredMixin
+from django.contrib.auth.mixins import LoginRequiredMixin, PermissionRequiredMixin
 from django.forms import inlineformset_factory
 from django.urls import reverse_lazy
 from django.views.generic import DetailView, ListView, TemplateView, CreateView, UpdateView, DeleteView
 
-from catalog.forms import ProductForm, VersionForm
+from catalog.forms import ProductForm, VersionForm, ProductModeratorForm
 from catalog.models import Product, Version
 
 
 class ProductListView(ListView):
     model = Product
     template_name = 'catalog/index.html'
+
+    def get_queryset(self, *args, **kwargs):
+        queryset = super().get_queryset(*args, **kwargs)
+        if not self.request.user.is_superuser or not self.request.user.has_perm('catalog.set_published'):
+            queryset = queryset.filter(is_published=True)
+            return queryset
+        return queryset
 
     def get_context_data(self, **kwargs):
         context_data = super().get_context_data(**kwargs)
@@ -28,11 +35,12 @@ class ProductDetailView(LoginRequiredMixin, DetailView):
     login_url = reverse_lazy('users:login')
 
 
-class ProductCreateView(LoginRequiredMixin, CreateView):
+class ProductCreateView(LoginRequiredMixin, PermissionRequiredMixin, CreateView):
     model = Product
     form_class = ProductForm
     success_url = reverse_lazy('catalog:index')
     login_url = reverse_lazy('users:login')
+    permission_required = 'catalog.add_product'
 
     def form_valid(self, form):
         product = form.save(commit=False)
@@ -40,9 +48,10 @@ class ProductCreateView(LoginRequiredMixin, CreateView):
         return super().form_valid(form)
 
 
-class ProductUpdateView(LoginRequiredMixin, UpdateView):
+class ProductUpdateView(LoginRequiredMixin, PermissionRequiredMixin, UpdateView):
     model = Product
-    form_class = ProductForm
+    permission_required = 'catalog.set_published'
+    # form_class = ProductForm
     success_url = reverse_lazy('catalog:index')
     login_url = reverse_lazy('users:login')
 
@@ -54,6 +63,11 @@ class ProductUpdateView(LoginRequiredMixin, UpdateView):
         else:
             context_data['formset'] = ProductFormset(instance=self.object)
         return context_data
+
+    def get_form_class(self):
+        if self.request.user.has_perm("catalog.set_published"):
+            return ProductModeratorForm
+        return ProductForm
 
     def form_valid(self, form):
         context_data = self.get_context_data()

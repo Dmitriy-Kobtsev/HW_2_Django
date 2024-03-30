@@ -29,7 +29,7 @@ class Product(models.Model):
                               null=True,
                               blank=True
                               )
-    is_published = models.BooleanField(default=False)
+    is_published = models.BooleanField(default=True, verbose_name='опубликовано')
 
     def __str__(self):
         # Строковое отображение объекта
