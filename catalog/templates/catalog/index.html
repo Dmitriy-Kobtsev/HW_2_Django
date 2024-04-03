@@ -25,7 +25,6 @@
                            href="{% url 'catalog:product_info' object.pk %}">
                             Перейти
                         </a>
-                        {% if perms.catalog.view_product %}
                         <a class="btn btn-sm btn-outline-secondary"
                            href="{% url 'catalog:product_update' object.pk %}">
                             Изменить
@@ -34,7 +33,6 @@
                            href="{% url 'catalog:product_delete' object.pk %}">
                             Удалить
                         </a>
-                        {% endif %}
                     </div>
                 </div>
             </div>

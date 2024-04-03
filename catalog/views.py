@@ -4,7 +4,7 @@ from django.http import Http404
 from django.urls import reverse_lazy
 from django.views.generic import DetailView, ListView, TemplateView, CreateView, UpdateView, DeleteView
 
-from catalog.forms import ProductForm, VersionForm, ProductModeratorForm
+from catalog.forms import ProductForm, VersionForm, ProductDescriptionForm
 from catalog.models import Product, Version
 
 
@@ -49,17 +49,15 @@ class ProductCreateView(LoginRequiredMixin, PermissionRequiredMixin, CreateView)
         return super().form_valid(form)
 
 
-class ProductUpdateView(LoginRequiredMixin, PermissionRequiredMixin, UpdateView):
+class ProductUpdateView(LoginRequiredMixin, UpdateView):
     model = Product
-    permission_required = 'catalog.set_published'
-    # form_class = ProductForm
+    form_class = ProductForm
     success_url = reverse_lazy('catalog:index')
     login_url = reverse_lazy('users:login')
 
     def get_object(self, queryset=None):
         self.object = super().get_object(queryset)
-
-        if self.object.owner != self.request.user and not self.request.user.has_perm('catalog.set_published'):
+        if self.object.owner != self.request.user:
             raise Http404
         return self.object
 
@@ -72,10 +70,10 @@ class ProductUpdateView(LoginRequiredMixin, PermissionRequiredMixin, UpdateView)
             context_data['formset'] = ProductFormset(instance=self.object)
         return context_data
 
-    def get_form_class(self):
-        if self.request.user.has_perm("catalog.set_published") and not self.request.user.is_superuser:
-            return ProductModeratorForm
-        return ProductForm
+    # def get_form_class(self):
+    #     if self.request.user.has_perm("catalog.set_published") and not self.request.user.is_superuser:
+    #         return ProductModeratorForm
+    #     return ProductForm
 
     def form_valid(self, form):
         context_data = self.get_context_data()
@@ -90,7 +88,22 @@ class ProductUpdateView(LoginRequiredMixin, PermissionRequiredMixin, UpdateView)
             return self.render_to_response(self.get_context_data(form=form, formset=formset))
 
 
+class ProductDescriptionUpdateView(LoginRequiredMixin, UpdateView):
+    model = Product
+    form_class = ProductDescriptionForm
+    template_name = 'catalog/product_form.html'
+
+    def get_success_url(self):
+        return reverse_lazy('catalog:product_info', kwargs={'pk': self.object.pk})
+
+
 class ProductDeleteView(LoginRequiredMixin, DeleteView):
     model = Product
     success_url = reverse_lazy('catalog:index')
     login_url = reverse_lazy('users:login')
+
+    def get_object(self, queryset=None):
+        self.object = super().get_object(queryset)
+        if self.object.owner != self.request.user:
+            raise Http404
+        return self.object
