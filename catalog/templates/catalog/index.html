@@ -2,7 +2,7 @@
 {% load mediapath_tag %}
 
 {% block content %}
-    {% if perms.catalog.add_product %}
+    {% if not perms.catalog.set_published %}
         <div class="col-12 mb-4">
             <a class="btn btn-outline-primary m-2" href="{% url 'catalog:product_create' %}">Добавить продукт</a>
         </div>
@@ -25,6 +25,7 @@
                            href="{% url 'catalog:product_info' object.pk %}">
                             Перейти
                         </a>
+                        {% if not perms.catalog.set_published %}
                         <a class="btn btn-sm btn-outline-secondary"
                            href="{% url 'catalog:product_update' object.pk %}">
                             Изменить
@@ -33,6 +34,7 @@
                            href="{% url 'catalog:product_delete' object.pk %}">
                             Удалить
                         </a>
+                        {% endif %}
                     </div>
                 </div>
             </div>

@@ -12,12 +12,12 @@ class ProductListView(ListView):
     model = Product
     template_name = 'catalog/index.html'
 
-    def get_queryset(self, *args, **kwargs):
-        queryset = super().get_queryset(*args, **kwargs)
-        if not self.request.user.is_superuser or not self.request.user.has_perm('catalog.set_published'):
-            queryset = queryset.filter(is_published=True)
-            return queryset
-        return queryset
+    # def get_queryset(self, *args, **kwargs):
+    #     queryset = super().get_queryset(*args, **kwargs)
+    #     if not self.request.user.is_superuser or not self.request.user.has_perm('catalog.set_published'):
+    #         queryset = queryset.filter(is_published=True)
+    #         return queryset
+    #     return queryset
 
     def get_context_data(self, **kwargs):
         context_data = super().get_context_data(**kwargs)
@@ -36,12 +36,11 @@ class ProductDetailView(LoginRequiredMixin, DetailView):
     login_url = reverse_lazy('users:login')
 
 
-class ProductCreateView(LoginRequiredMixin, PermissionRequiredMixin, CreateView):
+class ProductCreateView(LoginRequiredMixin, CreateView):
     model = Product
     form_class = ProductForm
     success_url = reverse_lazy('catalog:index')
     login_url = reverse_lazy('users:login')
-    permission_required = 'catalog.add_product'
 
     def form_valid(self, form):
         product = form.save(commit=False)
