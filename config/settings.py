@@ -9,22 +9,25 @@ https://docs.djangoproject.com/en/4.2/topics/settings/
 For the full list of settings and their values, see
 https://docs.djangoproject.com/en/4.2/ref/settings/
 """
-
+from dotenv import load_dotenv
 from pathlib import Path
+import os
 
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
-
+path_env = os.path.join(BASE_DIR, '.env')
+load_dotenv(path_env, override=True)
 
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/4.2/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = 'django-insecure-od3-y2z#p&apxy6^$b$f*c10_^do&65a-nz5yq+ybj@s8l@g)s'
+SECRET_KEY = os.getenv('SECRET_KEY')
+
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+DEBUG = True if os.getenv('DEBUG') and os.getenv('DEBUG') == "True" else False
 
 ALLOWED_HOSTS = []
 
@@ -84,9 +87,9 @@ WSGI_APPLICATION = 'config.wsgi.application'
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql_psycopg2',
-        'NAME': 'catalog',
-        'USER': 'postgres',
-        'PASSWORD': '123',
+        'NAME': os.getenv('POSTGRES_DB'),
+        'USER': os.getenv('POSTGRES_USER'),
+        'PASSWORD': os.getenv('POSTGRES_PASSWORD'),
     }
 }
 
@@ -147,12 +150,22 @@ EMAIL_HOST = 'smtp.yandex.ru'
 EMAIL_PORT = 465
 EMAIL_USE_SSL = True
 
-EMAIL_HOST_USER = 'dmitrykobtsev@yandex.ru'
-EMAIL_HOST_PASSWORD = 'ubgwrcthwygcqikq'
+EMAIL_HOST_USER = os.getenv('EMAIL_HOST_USER')
+EMAIL_HOST_PASSWORD = os.getenv('EMAIL_HOST_PASSWORD')
 
 DEFAULT_FROM_EMAIL = EMAIL_HOST_USER
 SERVER_EMAIL = EMAIL_HOST_USER
 EMAIL_ADMIN = EMAIL_HOST_USER
+
+CACHE_ENABLE = True if os.getenv('CACHE_ENABLED') and os.getenv('CACHE_ENABLED') == 'True' else False
+
+CACHES = {
+    'default': {
+        'BACKEND': os.getenv('CACHE_BACKEND'),
+        'LOCATION': os.getenv('CACHE_LOCATION'),
+        'TIMEOUT': 100
+    }
+}
 
 
 

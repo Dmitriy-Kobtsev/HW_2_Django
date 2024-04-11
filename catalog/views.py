@@ -4,8 +4,9 @@ from django.http import Http404
 from django.urls import reverse_lazy
 from django.views.generic import DetailView, ListView, TemplateView, CreateView, UpdateView, DeleteView
 
+from catalog import services
 from catalog.forms import ProductForm, VersionForm, ProductDescriptionForm
-from catalog.models import Product, Version
+from catalog.models import Product, Version, Category
 
 
 class ProductListView(ListView):
@@ -106,3 +107,12 @@ class ProductDeleteView(LoginRequiredMixin, DeleteView):
         if self.object.owner != self.request.user:
             raise Http404
         return self.object
+
+
+class CategoryListView(ListView):
+    model = Category
+    template_name = 'catalog/category.html'
+
+    def get_queryset(self):
+        queryset = services.get_category()
+        return queryset
